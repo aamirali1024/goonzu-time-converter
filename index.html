@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Goonzu Time Converter</title>
+  <style>
+    body {
+      font-family: Arial;
+      max-width: 500px;
+      margin: 40px auto;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <label id="inputLabel">Enter goonzu time (in hours):</label>
+  <input id="entry" type="number" />
+
+  <select id="mode">
+    <option value="Hours">Hours</option>
+    <option value="Days">Days</option>
+  </select>
+
+  <button onclick="convertTime()">Convert</button>
+
+  <p id="output"></p>
+
+  <script>
+    const mode = document.getElementById("mode");
+    const inputLabel = document.getElementById("inputLabel");
+    const output = document.getElementById("output");
+
+    mode.addEventListener("change", () => {
+      if (mode.value === "Hours") {
+        inputLabel.textContent = "Enter goonzu time (in hours):";
+      } else {
+        inputLabel.textContent = "Enter goonzu time (in days):";
+      }
+    });
+
+    function convertTime() {
+      const value = parseInt(document.getElementById("entry").value);
+
+      if (isNaN(value)) {
+        output.textContent = "Please enter a valid number";
+        return;
+      }
+
+      let goonzutime;
+
+      if (mode.value === "Hours") {
+        goonzutime = value * 2;
+      } else {
+        goonzutime = value * 48;
+      }
+
+      const days = Math.floor(goonzutime / 1440);
+      const leftovers = goonzutime % 1440;
+      const hours = Math.floor(leftovers / 60);
+      const mins = leftovers % 60;
+
+      let result;
+
+      if (days > 0 && hours > 0) {
+        result = `${days} days, ${hours} hours, ${mins} mins`;
+      } else if (days > 0) {
+        result = `${days} days, ${mins} mins`;
+      } else if (hours > 0) {
+        result = `${hours} hours, ${mins} mins`;
+      } else {
+        result = `${mins} mins`;
+      }
+
+      output.textContent = result;
+    }
+  </script>
+
+</body>
+</html>
